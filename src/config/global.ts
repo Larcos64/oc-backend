@@ -3,11 +3,11 @@ import { ConfigI } from "./cfg";
 export default {
 
     keyDbPostgres: {
-        host: "localhost",
-        user: "postgres",
-        port: 5432,
-        database: "organizational_climate",
-        password: "root",
+        host: process.env.DATABASE_HOST,
+        user: process.env.DATABASE_USER,
+        port: process.env.DATABASE_PORT,
+        database: process.env.DATABASE_NAME,
+        password: process.env.DATABASE_PASS,
         max: 2,
         min: 1,
         idleTimeoutMillis: 30000,
@@ -17,11 +17,11 @@ export default {
  
 export const CONFIG_PROD: ConfigI = {
     database: {
-        host: "",
-        user: "postgres",
+        host: process.env.DATABASE_HOST,
+        user: process.env.DATABASE_USER,
         port: 5432,
-        database: "organizational_climate",
-        password: "root",
+        database: process.env.DATABASE_NAME,
+        password: process.env.DATABASE_PASS,
         max: 2,
         min: 1,
         idleTimeoutMillis: 30000,

@@ -2,6 +2,23 @@
 
 First install the database server before compiling the project dependencies.
 
+## 🧰 Prerequisites
+
+This project requires **Node.js v18.18.0 or higher**.
+
+> ⚠️ The backend uses modern Node features such as `AsyncLocalStorage` and dependencies (`pg@8+`, `pkg-logger`) that are **not compatible with older Node versions (v14 or below)**.
+
+**Recommended environment:**
+- **Node.js:** ≥ 18.18.0 LTS  
+- **npm:** ≥ 9.x  
+- **(Optional)** [nvm](https://github.com/nvm-sh/nvm) to manage Node versions
+
+To ensure the correct Node version:
+
+```bash
+nvm install 18.18.0
+nvm use 18.18.0
+
 ## Database configuration
 
 In the `src/config/global.ts` file the host (for local tests), bucket name, user and password must be placed.

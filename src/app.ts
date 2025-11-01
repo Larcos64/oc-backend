@@ -22,10 +22,16 @@ import surveyversion from './routes/survey-version';
 import versec from './routes/ver-section';
 import verques from './routes/ver-question';
 
+import { httpLoggerExpress, initContextExpress, getContextValue } from 'pkg-prima-logger';
+
 import cookieParser = require("cookie-parser"); // this module doesn't use the ES6 default export yet
 import cors = require("cors");
 
 const app: express.Express = express();
+
+// Apply the request logger middleware
+app.use(httpLoggerExpress); // Automatically links req.log
+// app.use(initContextExpress); // Start AsyncLocalStorage and set context
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(__dirname + '/public/favicon.ico'));
@@ -72,10 +78,20 @@ app.get(/.*/, function (req, res, next) {
 });
 
 // catch 404 and forward to error handler
-app.use((req, res, next) => {
-  var err = new Error("Not Found");
-  err["status"] = 404;
-  next(err);
+app.use((err, req, res, next) => {
+  if (res.headersSent) return next(err);
+
+  const logContext = getContextValue("logContext", {});
+
+  req.log.error(
+    { err, res, ...logContext },
+    'Unhandled error occurred'
+  ); // Error middleware
+
+  res.status(err.status || 500).json({
+    success: false,
+    message: err.message || 'Internal Server Error',
+  });
 });
 
 // error handlers

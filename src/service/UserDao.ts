@@ -13,7 +13,7 @@ class AcsUserDao {
 
             var rsw: any = await pool.query(Query.LOGIN, [email, md5(pass)])
             const rs = rsw.rows
-            console.log("rs: ", rs)
+            // console.log("rs: ", rs)
             rs.map((item: any) => {
                 obj = new AcsUser()
                 obj.idUser = item.id_user
@@ -28,7 +28,7 @@ class AcsUserDao {
                 obj.dateBirthUser = item.date_birth_user
                 obj.entailmentDateUser = item.entailment_date_user
             })
-            console.log("obj: ", obj)
+            // console.log("obj: ", obj)
         } catch (err) {
             console.log(err)
             throw err
