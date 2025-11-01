@@ -31,6 +31,6 @@ export const CONFIG_PROD: ConfigI = {
 
 export const DESK_PORT = 49213;
 
-export const secret = "U4NPR0J3C7";
+export const secret = process.env.TOKEN_SECRET;
 const env = process.env.NODE_ENV || "development";
 export const config = CONFIG_PROD;
