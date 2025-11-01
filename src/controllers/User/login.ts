@@ -4,7 +4,7 @@ import { secret } from '../../config/global';
 import { ResponseBody } from '../response-body';
 import acsUserDao from '../../service/UserDao';
 import { AcsUser } from '../../service/models/User';
-import logger from '../../logger/logger';
+import { logEvent } from 'pkg-prima-logger';
 
 interface RequestBody {
     username: string;
@@ -25,24 +25,31 @@ export function login(req: Request, res: Response, next) {
                 let token = sign({ id: data.idUser }, secret);
                 delete data.passUser;
 
-                logger.info({
-                    msg: "User successfully authenticated",
-                    ip: req.ip,
-                    route: req.originalUrl,
-                    context: {
+                logEvent({
+                    req,
+                    msg: 'Success authentication',
+                    event: {
+                        action: 'success_authentication',
+                        category: 'authentication'
+                    },
+                    extra: {
                         userId: data.idUser,
                         username: data.nameUser,
                         email: data.emailUser,
                     }
-                })
+                });
 
                 res.send(new ResponseLogin(true, { user: data, token: token }, null));
             } else {
-                logger.warn({
+                logEvent({
+                    req,
                     msg: 'Login attempt failed',
-                    ip: req.ip,
-                    route: req.originalUrl,
-                    context: {
+                    level: "warn",
+                    event: {
+                        action: 'failed_authentication',
+                        category: 'authentication'
+                    },
+                    extra: {
                         username: login.username,
                     }
                 });
@@ -51,8 +58,8 @@ export function login(req: Request, res: Response, next) {
             }
         }, err => {
             console.log(err)
-            logger.error({
-                msg: 'Error ocurred during login',
+            req.log.error({
+                msg: 'Error ocurred during authentication',
                 ip: req.ip,
                 route: req.originalUrl,
                 error: err,
