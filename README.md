@@ -18,6 +18,7 @@ To ensure the correct Node version:
 ```bash
 nvm install 18.18.0
 nvm use 18.18.0
+```
 
 ## Database configuration
 
@@ -28,7 +29,9 @@ ___
 # Compiling dependencies
 To install the Node packages run the following command in the root folder of the project:
 
-    npm install
+```bash
+npm install
+```
 
 Note: sometimes when the project dependencies do not compile it is recommended to remove the `/node_modules` folder from the project root folder and the package-lock.json file and remove the cache when installing dependencies with `npm install r -c`_.
 
@@ -37,4 +40,6 @@ ___
 # Build and run API
 To build the project and start running the backend, run the following command:
 
-    npm run buildandrun
+```bash
+npm run buildandrun
+```
